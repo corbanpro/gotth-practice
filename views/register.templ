@@ -1,0 +1,52 @@
+
+
+package views
+
+templ (r *Renderer) Register() {
+	@r.Base("Register", "") {
+		<div>
+			<h1>
+				Register
+			</h1>
+			<div>
+				<a class="text-blue-500 underline" href="/auth/login">Have an account? Log In</a>
+			</div>
+			<form
+				hx-post="/auth/register"
+				hx-target-4**="#error-message"
+				hx-swap="outerHTML"
+			>
+				<div>
+					<input class="border rounded" type="text" name="username" placeholder="Username"/>
+				</div>
+				<div>
+					<input class="border rounded" type="password" name="password" placeholder="Password"/>
+				</div>
+				<div>
+					<input class="border rounded" type="password" name="confirm_password" placeholder="Confirm Password"/>
+				</div>
+				<div>
+					<input class="border rounded" type="text" name="first_name" placeholder="First Name"/>
+				</div>
+				<div>
+					<input class="border rounded" type="text" name="last_name" placeholder="Last Name"/>
+				</div>
+				<div>
+					<button class="cursor-pointer rounded bg-slate-200 px-3 py-1" type="submit">Register</button>
+				</div>
+			</form>
+		</div>
+		<p id="error-message"></p>
+	}
+}
+
+templ (r *Renderer) RegisterError(message string) {
+	<p
+		id="error-message"
+		class="text-red-500 p-2 border rounded bg-red-100 my-2"
+		hx-swap-oob="outerHTML"
+		hx-on:click="this.classList.add('hidden')"
+	>
+		{ message }
+	</p>
+}

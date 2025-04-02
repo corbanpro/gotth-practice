@@ -1,0 +1,28 @@
+package views
+
+templ (r *Renderer) Home() {
+	@r.Base("Home", "") {
+		<div>
+			if r.Globals.User == nil {
+				This is the home page
+				<div>
+					<p>Welcome to the home page!</p>
+					<p>This is a simple example of a templ in Go.</p>
+				</div>
+				<div hx-get="/home/more">
+					click here for more content
+				</div>
+			} else {
+				<p>Welcome back, { r.Globals.User.FirstName }!</p>
+			}
+		</div>
+	}
+}
+
+templ (r *Renderer) MoreHome() {
+	<div>
+		<p>This is more content loaded via HTMX!</p>
+		<p>It can be used to dynamically load more content without a full page refresh.</p>
+		<p>Feel free to customize this further!</p>
+	</div>
+}

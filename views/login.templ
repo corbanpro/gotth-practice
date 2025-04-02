@@ -1,0 +1,42 @@
+
+package views
+
+templ (r *Renderer) Login() {
+	@r.Base("Login", "") {
+		<div>
+			<h1>
+				Login
+			</h1>
+			<div>
+				<a class="text-blue-500 underline" href="/auth/register">Create an Account</a>
+			</div>
+			<form
+				hx-post="/auth/login"
+				hx-target-4**="#error-message"
+				hx-swap="outerHTML"
+			>
+				<div>
+					<input class="border rounded" type="text" name="username" placeholder="Username"/>
+				</div>
+				<div>
+					<input class="border rounded" type="password" name="password" placeholder="Password"/>
+				</div>
+				<div>
+					<button class="cursor-pointer rounded bg-slate-200 px-3 py-1" type="submit">Login</button>
+				</div>
+			</form>
+		</div>
+		<p id="error-message"></p>
+	}
+}
+
+templ (r *Renderer) LoginError(message string) {
+	<p
+		id="error-message"
+		class="text-red-500 p-2 border rounded bg-red-100 my-2"
+		hx-swap-oob="outerHTML"
+		hx-on:click="this.classList.add('hidden')"
+	>
+		{ message }
+	</p>
+}

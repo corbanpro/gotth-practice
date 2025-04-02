@@ -1,0 +1,5 @@
+build/
+*_templ.go
+*.db
+tailwind.css
+tmp/
