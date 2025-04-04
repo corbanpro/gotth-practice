@@ -1,9 +1,11 @@
 package views
 
-templ (r *Renderer) Home() {
-	@r.Base("Home", "") {
+import "example/go-htmx/store"
+
+templ HomePage(user *store.User) {
+	@Base(user, "Home", "") {
 		<div>
-			if r.Globals.User == nil {
+			if user == nil {
 				This is the home page
 				<div>
 					<p>Welcome to the home page!</p>
@@ -13,13 +15,13 @@ templ (r *Renderer) Home() {
 					click here for more content
 				</div>
 			} else {
-				<p>Welcome back, { r.Globals.User.FirstName }!</p>
+				<p>Welcome back, { user.FirstName }!</p>
 			}
 		</div>
 	}
 }
 
-templ (r *Renderer) MoreHome() {
+templ MoreHome() {
 	<div>
 		<p>This is more content loaded via HTMX!</p>
 		<p>It can be used to dynamically load more content without a full page refresh.</p>

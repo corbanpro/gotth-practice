@@ -2,20 +2,20 @@ package views
 
 import "example/go-htmx/store"
 
-templ (r *Renderer) TodoPage(items []store.TodoItem) {
-	@r.Base("Todo", "") {
-		if r.Globals.User == nil {
+templ TodoPage(user *store.User, items []store.TodoItem) {
+	@Base(user, "Todo", "") {
+		if user == nil {
 			<p>Create an account to track todo items.</p>
 		} else {
 			<div class="p-3">
-				@r.TodoItems(items)
-				@r.AddItemForm()
+				@TodoItems(items)
+				@AddItemForm()
 			</div>
 		}
 	}
 }
 
-templ (r *Renderer) AddItemForm() {
+templ AddItemForm() {
 	<form
 		class="mt-4 p-2 border rounded"
 		hx-post="/todo/item"
@@ -38,7 +38,7 @@ templ (r *Renderer) AddItemForm() {
 	</form>
 }
 
-templ (r *Renderer) TodoItems(items []store.TodoItem) {
+templ TodoItems(items []store.TodoItem) {
 	<div class="table" id="todo-list">
 		<div class="table-row">
 			<div class="table-cell px-2">Task</div>
@@ -47,7 +47,7 @@ templ (r *Renderer) TodoItems(items []store.TodoItem) {
 			<div class="table-cell px-2">Delete</div>
 		</div>
 		for _, item := range items {
-			@r.TodoItem(item)
+			@TodoItem(item)
 		}
 	</div>
 	if len(items) == 0 {
@@ -55,7 +55,7 @@ templ (r *Renderer) TodoItems(items []store.TodoItem) {
 	}
 }
 
-templ (r *Renderer) AddItemError(errorMsg string) {
+templ AddItemError(errorMsg string) {
 	<p
 		id="error-message"
 		class="text-red-500 p-2 border rounded bg-red-100 my-2"
@@ -66,7 +66,7 @@ templ (r *Renderer) AddItemError(errorMsg string) {
 	</p>
 }
 
-templ (r *Renderer) TodoItem(item store.TodoItem) {
+templ TodoItem(item store.TodoItem) {
 	<p id="empty-list" hx-swap-oob="delete"></p>
 	<div class="table-row py-2">
 		<div class="table-cell px-2">
@@ -103,7 +103,7 @@ templ (r *Renderer) TodoItem(item store.TodoItem) {
 	</div>
 }
 
-templ (r *Renderer) EditTodoItem(item store.TodoItem) {
+templ EditTodoItem(item store.TodoItem) {
 	<form
 		class="table-row"
 		hx-put={ "/todo/item/" + item.Id }

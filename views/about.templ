@@ -1,7 +1,9 @@
 package views
 
-templ (r *Renderer) About() {
-	@r.Base("About", "") {
+import "example/go-htmx/store"
+
+templ AboutPage(user *store.User) {
+	@Base(user, "About", "") {
 		<div>This is the about page</div>
 	}
 }

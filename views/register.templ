@@ -1,9 +1,9 @@
-
-
 package views
 
-templ (r *Renderer) Register() {
-	@r.Base("Register", "") {
+import "example/go-htmx/store"
+
+templ RegisterPage(user *store.User) {
+	@Base(user, "Register", "") {
 		<div>
 			<h1>
 				Register
@@ -40,7 +40,7 @@ templ (r *Renderer) Register() {
 	}
 }
 
-templ (r *Renderer) RegisterError(message string) {
+templ RegisterError(message string) {
 	<p
 		id="error-message"
 		class="text-red-500 p-2 border rounded bg-red-100 my-2"

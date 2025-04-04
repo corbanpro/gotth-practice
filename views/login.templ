@@ -1,8 +1,10 @@
 
 package views
 
-templ (r *Renderer) Login() {
-	@r.Base("Login", "") {
+import "example/go-htmx/store"
+
+templ LoginPage(user *store.User) {
+	@Base(user, "Login", "") {
 		<div>
 			<h1>
 				Login
@@ -30,7 +32,7 @@ templ (r *Renderer) Login() {
 	}
 }
 
-templ (r *Renderer) LoginError(message string) {
+templ LoginError(message string) {
 	<p
 		id="error-message"
 		class="text-red-500 p-2 border rounded bg-red-100 my-2"
