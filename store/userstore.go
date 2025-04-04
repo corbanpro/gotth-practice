@@ -65,7 +65,7 @@ func (s *userStore) Delete(username string) error {
 	return nil
 }
 
-func (s *userStore) ValidatePassword(username, password string) (bool, error) {
+func (s *userStore) ValidateLogin(username, password string) (bool, error) {
 	user, err := s.GetByUsername(username)
 
 	if err != nil {

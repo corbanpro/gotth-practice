@@ -28,7 +28,7 @@ type UserStore interface {
 	GetByUsername(username string) (User, error)
 	Update(username, password, firstName, lastName string) (User, error)
 	Delete(username string) error
-	ValidatePassword(username, password string) (bool, error)
+	ValidateLogin(username, password string) (bool, error)
 }
 
 type Session struct {

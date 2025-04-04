@@ -1,22 +1,27 @@
 package controllers
 
 import (
+	"example/go-htmx/request"
+	"example/go-htmx/store"
 	"example/go-htmx/views"
 
 	"github.com/gin-gonic/gin"
 )
 
 type HomeRouterParams struct {
-	Renderer views.Renderer
+	UserStore store.UserStore
 }
 
 type homeRouter struct {
-	renderer views.Renderer
+	userStore store.UserStore
 }
 
 func NewHomeRouter(params HomeRouterParams) *homeRouter {
+	if params.UserStore == nil {
+		panic("UserStore is required")
+	}
 	return &homeRouter{
-		renderer: params.Renderer,
+		userStore: params.UserStore,
 	}
 }
 
@@ -25,10 +30,11 @@ func (r *homeRouter) RegisterRoutes(router *gin.RouterGroup) {
 	router.GET("/more", r.getMoreHome)
 }
 
-func (*homeRouter) getHome(c *gin.Context) {
-	views.NewRenderer(c).Home().Render(c, c.Writer)
+func (r *homeRouter) getHome(c *gin.Context) {
+	user, _ := request.GetUser(c, r.userStore)
+	views.HomePage(user).Render(c, c.Writer)
 }
 
 func (*homeRouter) getMoreHome(c *gin.Context) {
-	views.NewRenderer(c).MoreHome().Render(c, c.Writer)
+	views.MoreHome().Render(c, c.Writer)
 }
