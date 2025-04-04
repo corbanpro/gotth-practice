@@ -8,26 +8,26 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// TODO: learn htmx and templ again.
-
 func main() {
+	// Database and Redis initialization
 	db := store.InitDb()
 	redis := store.InitRedis(&gin.Context{})
 
+	// Store initialization
 	todoStore := store.NewTodoStore(db)
 	userStore := store.NewUserStore(db)
 	sessionStore := store.NewSessionStore(redis, &gin.Context{})
 
+	// Router initialization
 	router := gin.Default()
 	router.Static("assets", "./assets")
-	router.Any("/", func(c *gin.Context) {
-		c.Redirect(303, "/home")
-	})
-	router.Use(func(c *gin.Context) {
-		c.Header("Content-Type", "text/html; charset=utf-8")
-	})
+	router.Any("/", func(c *gin.Context) { c.Redirect(303, "/home") })
+
+	// Middleware
+	router.Use(func(c *gin.Context) { c.Header("Content-Type", "text/html; charset=utf-8") })
 	router.Use(middleware.AuthMiddleware(sessionStore))
 
+	// Route registration
 	authRouterGroup := router.Group("/auth")
 	authRouter := controllers.NewAuthRouter(controllers.AuthRouterParams{UserStore: userStore, SessionStore: sessionStore})
 	authRouter.RegisterRoutes(authRouterGroup)
@@ -44,5 +44,6 @@ func main() {
 	todoRouter := controllers.NewTodoRouter(controllers.TodoRouterParams{TodoStore: todoStore, UserStore: userStore})
 	todoRouter.RegisterRoutes(todoRouterGroup)
 
+	// Start the server
 	router.Run(":4000")
 }
