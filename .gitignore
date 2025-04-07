@@ -3,3 +3,4 @@ build/
 *.db
 tailwind.css
 tmp/
+*.rdb
