@@ -158,6 +158,5 @@ func (r *authRouter) getLogout(c *gin.Context) {
 		c.SetCookie("session_id", "", -1, "/", "", false, true)
 	}
 
-	c.Redirect(http.StatusTemporaryRedirect, "/auth/login")
-	c.Header("HX-Redirect", "/auth/login")
+	c.Redirect(http.StatusSeeOther, "/auth/login")
 }

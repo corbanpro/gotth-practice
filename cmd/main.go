@@ -4,6 +4,7 @@ import (
 	"example/go-htmx/controllers"
 	"example/go-htmx/middleware"
 	"example/go-htmx/store"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -21,7 +22,7 @@ func main() {
 	// Router initialization
 	router := gin.Default()
 	router.Static("assets", "./assets")
-	router.Any("/", func(c *gin.Context) { c.Redirect(303, "/home") })
+	router.Any("/", func(c *gin.Context) { c.Redirect(http.StatusSeeOther, "/home") })
 
 	// Middleware
 	router.Use(func(c *gin.Context) { c.Header("Content-Type", "text/html; charset=utf-8") })

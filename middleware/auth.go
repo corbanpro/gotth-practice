@@ -32,7 +32,8 @@ func RequireAuth(handler gin.HandlerFunc) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		userVal, exists := c.Get("user_id")
 		if !exists || userVal == nil {
-			c.Redirect(http.StatusTemporaryRedirect, "/login")
+			c.Redirect(http.StatusSeeOther, "auth/login")
+			c.Header("HX-Redirect", "/auth/login")
 			return
 		} else {
 			handler(c)
